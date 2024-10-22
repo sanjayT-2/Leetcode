@@ -5,17 +5,9 @@ class Solution {
         {
              if(nums[i]==1)
              {
-                c++;
-                if(c>max)
-                {
-                    max=c;
-                }
+                c++; if(c>max) max=c;  
              }
-             else
-             {
-                c=0;
-             }
-             
+             else c=0;   
         }
         return max;
     }
