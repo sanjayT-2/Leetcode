@@ -1,4 +1,4 @@
-class Solution(object):
-    def findMin(self, nums):
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
         return min(nums)
         
