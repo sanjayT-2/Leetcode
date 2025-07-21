@@ -1,47 +1,31 @@
 class Solution {
     public List<String> topKFrequent(String[] words, int k) {
-        HashMap<String,Integer> h = new HashMap<>();
-        List<String> list = new ArrayList<>();
-        
-        for (String word : words) {
-            
-            h.put(word, h.getOrDefault(word, 0) + 1);
-            if (!list.contains(word)) list.add(word);
+        TreeMap<String , Integer> map = new TreeMap<>();
+        for(String word:words){
+            map.put(word , map.getOrDefault(word, 0)+1);
         }
-        Collections.sort(list, (String a, String b) -> {
-                int aCount = h.get(a);
-                int bCount = h.get(b);
-            
-                if (aCount == bCount) {
-                    return a.compareTo(b);
-                } else {
-                    return bCount - aCount;
-                }
-            });
+        
+        PriorityQueue<Integer> maxheap = new PriorityQueue<>(Collections.reverseOrder());
+        for(int n:map.values()){
+            maxheap.add(n);
+        }
 
-        return list.subList(0, k);
+        ArrayList<String> list = new ArrayList<>();
+        for(int i=1;i<=k;++i){
+            int n = maxheap.poll();
+            String str = findword(map , n);
+            map.remove(str);
+            list.add(str);
+        }
+        return list;
+
+    }
+    public String findword(TreeMap<String ,Integer> map , int n){
+        for(String s:map.keySet()){
+            if(map.get(s)==n){
+                return s;
+            }
+        }
+        return "0";
     }
 }
-
-// List: [apple, banana, cherry, date]
-
-// list.sort((a, b) -> {
-//     int freq = map.get(b) - map.get(a);
-//     return freq != 0 ? freq : a.compareTo(b);
-// });
-
-
-
-
-// Compare("apple", "banana"):
-//    freq = 3 - 5 = -2 (negative)
-//    apple before banana
-
-// Compare("apple", "cherry"):
-//    freq = 5 - 5 = 0 (equal)
-//    compare lex: "apple" < "cherry" → apple before cherry
-
-// Compare("banana", "date"):
-//    freq = 2 - 3 = -1 (negative)
-//    banana before date
-
